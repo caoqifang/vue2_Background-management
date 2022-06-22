@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    // 路由重定向
+    redirect:'/login',
+    component:()=>import('@/components/Login'),
+  },
+  {
+    path: '/login',
+    name:'Login',
+    component:()=>import('@/components/Login'),
   },
   {
     path: '/about',
