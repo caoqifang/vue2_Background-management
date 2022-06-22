@@ -1,5 +1,6 @@
 # managementsystem
 1. 上传git仓库 创建dev分支
+2. 测试创建分支
 ## Project setup
 ```
 npm install
