@@ -11,7 +11,7 @@
         status-icon
         :rules="rules"
       >
-        <el-form-item label="用户名" prop="username" >
+        <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
@@ -34,6 +34,7 @@ import { setToken } from "@/utils/setToken";
 import url from "@/config/url";
 // 导入封装后的登陆接口
 import { login } from "@/api/api";
+import { getToken } from '@/utils/setToken';
 export default {
   data() {
     return {
@@ -46,6 +47,12 @@ export default {
         password: [{ validator: passRule, trigger: "blur", required: true }],
       },
     };
+  },
+  created() {
+    // 判断本地如果有token就跳转到首页
+    if (getToken("token")) {
+      this.$router.push("/home");
+    }
   },
   methods: {
     // 点击登陆触发的方法
@@ -77,7 +84,7 @@ export default {
               // 提示信息
               this.$message({ message: "登陆成功！", type: "success" });
               // 跳转到登陆后的页面
-              this.$router.push("");
+              this.$router.push("/home");
             }
           });
         } else {
@@ -104,7 +111,7 @@ export default {
     margin: 200px auto;
     .el-form .el-form-item__label {
       color: white;
-    } 
+    }
     .el-form-item {
       color: #fff;
     }

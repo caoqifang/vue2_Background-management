@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import { getToken } from '@/utils/setToken'
+// 导入分模块的路由配置文件
+import home from './modules/home'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,14 +17,8 @@ const routes = [
     name:'Login',
     component:()=>import('@/components/Login'),
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
+  // 使用...将元素一一放入数组中
+  ...home,
   // 404路由
   {
     path: '*',
