@@ -6,7 +6,9 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 引入未封装的axios （后续封装）
-import axios from 'axios'
+// import axios from 'axios'
+// 引入二次封装的axios
+import axios from '@/http/req'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 // axios挂载到原型上

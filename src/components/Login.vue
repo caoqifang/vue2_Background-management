@@ -4,7 +4,13 @@
       <div slot="header" class="clearfix">
         <span>后台管理系统</span>
       </div>
-      <el-form label-width="80px" :model="form" ref="form" :rules="rules">
+      <el-form
+        label-width="80px"
+        :model="form"
+        ref="form"
+        status-icon
+        :rules="rules"
+      >
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username"></el-input>
         </el-form-item>
@@ -20,42 +26,22 @@
 </template>
 
 <script>
+// 导入正则验证的模块
+import { naemRule, passRule } from "@/utils/vaildate";
+// 导入token的模块
+import { setToken } from "@/utils/setToken";
+// 请求地址
+import url from "@/config/url";
 export default {
   data() {
-    const validateName = (rule, value, callback) => {
-      // 请输入4-10位用户名
-      console.log(value);
-      let reg = /^[a-zA-Z0-9]{4,10}$/;
-      if (value === "") {
-        callback(new Error("请输入用户名"));
-      } else if (!reg.test(value)) {
-        callback(new Error("请输入4-10位用户名"));
-      } else {
-        callback();
-      }
-    };
-    const validatePass = (rule, value, callback) => {
-      // 6-12位密码 需要包含大小写字母  和数字以及特殊符号
-      let pass =
-        /^\S*(?=\S{6,12})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/;
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else if (!pass.test(value)) {
-        callback(
-          new Error("请输入6-12位密码，需要包含大小写字母和数字以及特殊符号")
-        );
-      } else {
-        callback();
-      }
-    };
     return {
       form: {
         username: "",
         password: "",
       },
       rules: {
-        username: [{ validator: validateName, trigger: "blur" }],
-        password: [{ validator: validatePass, trigger: "blur" }],
+        username: [{ validator: naemRule, trigger: "blur", required: true }],
+        password: [{ validator: passRule, trigger: "blur", required: true }],
       },
     };
   },
@@ -65,6 +51,10 @@ export default {
       this.$refs[form].validate((valid) => {
         if (valid) {
           console.log(this.form);
+          // 发请求  登陆
+          this.$http.post(url.login, this.form).then((res) => {
+            console.log(res);
+          });
         } else {
           console.error(this.form);
         }
