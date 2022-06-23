@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// 引入字体图标库样式
+import 'font-awesome/css/font-awesome.min.css'
 // 引入eleui组件库
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import { getToken } from '@/utils/setToken'
 // 导入分模块的路由配置文件
 import home from './modules/home'
+import dataAnalysis from './modules/dataAnalysis'
+import user from './modules/user'
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,6 +21,8 @@ const routes = [
   },
   // 使用...将元素一一放入数组中
   ...home,
+  ...user,
+  ...dataAnalysis,
   // 404路由
   {
     path: '*',

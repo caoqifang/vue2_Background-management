@@ -37,6 +37,7 @@ export default {
     width: 100%;
     top: 60px;
     bottom: 0;
+    overflow: hidden;
   }
 }
 </style>
