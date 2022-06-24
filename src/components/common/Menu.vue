@@ -2,22 +2,30 @@
   <div class="menu">
     <el-aside width="200px">
       <el-menu
+        router
         default-active="2"
         class="el-menu-vertical-demo"
-        background-color="#ffe407"
-        text-color="#000"
-        active-text-color="#000"
+        background-color="#0b172e"
+        text-color="#dcdcdc"
+        active-text-color="#fff"
       >
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
+        <div v-for="(item, index) in menus" :key="index">
+          <el-submenu :index="index + ''" v-if="!item.hidden">
+            <template slot="title">
+              <i :class="item.iconClass"></i>
+              <span>{{ item.name }}</span>
+            </template>
+            <el-menu-item-group
+              v-for="(child, index) in item.children"
+              :key="index"
+            >
+              <el-menu-item :index="child.path">
+                <i :class="child.iconClass"></i>
+                {{ child.name }}
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+        </div>
       </el-menu>
     </el-aside>
   </div>
@@ -25,6 +33,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+      menus: [],
+    };
+  },
+  created() {
+    // console.log(this.$router.options.routes);
+    this.menus = [...this.$router.options.routes];
+    // console.log(this.menus);
+  },
 };
 </script>
 
@@ -32,11 +50,15 @@ export default {
 .menu {
   .el-aside {
     height: 100%;
+    overflow: hidden;
     .el-menu {
       height: 100%;
+      .fa {
+        margin-right: 10px;
+      }
     }
-    .el-sunmenu .el-menu-item{
-        min-width: 0;
+    .el-sunmenu .el-menu-item {
+      min-width: 0;
     }
   }
 }

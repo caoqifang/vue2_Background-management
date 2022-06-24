@@ -5,13 +5,17 @@ const routes = [
         path: '/home',
         name: '学生管理',
         iconClass: 'fa fa-users',
-        redirect:'/home/student',
+        redirect: '/home/student',
         component: () => import('@/views/Home.vue'),
+
         children: [
             {
                 path: '/home/student',
                 name: '学生列表',
                 iconClass: 'fa fa-list',
+                meta: {
+                    isLogin: true
+                },
                 component: () => import('@/views/students/studentList'),
             },
             {
@@ -27,7 +31,7 @@ const routes = [
                 component: () => import('@/views/students/infoLists'),
             },
             {
-                path: '/home/student',
+                path: '/home/worklist',
                 name: '作业列表',
                 iconClass: 'fa fa-list-ul',
                 component: () => import('@/views/students/WorkList'),

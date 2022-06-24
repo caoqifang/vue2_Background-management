@@ -9,7 +9,7 @@ const routes = [
             {
                 path: '/data/dataview',
                 name: '数据概览',
-                iconClass: 'fa fa-fa-chart',
+                iconClass: 'fa fa-line-chart',
                 component: () => import('@/views/dataAnalysis/DataView'),
             },
             {
