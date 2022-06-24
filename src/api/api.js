@@ -19,3 +19,11 @@ export function students(params){
         params
     })
 }
+
+// 数据删除接口
+export function del(id){
+    return http({
+        method:'delete',
+        url:`/students/${id}`,     
+    })
+}

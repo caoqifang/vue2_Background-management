@@ -62,7 +62,7 @@ export default {
           console.log(this.form);
           // 发请求  登陆
           // this.$http.post(url.login, this.form).then((res) => {
-          //   console.log(res);//登录后  将服务器返回的token信息和用户id存储到本地 （存token 为了服务器验证 存用户id 为了在页面上显示）
+          //   console.log(res);//登录后  将服务器返回的token信息和用户id存储到本地 （存token 为了服务器验证 存用户id 为了在页面上显示）  //// 此处已封装模块
           //   if(res.status === 200){
           //     // 存token
           //     setToken('token',res.data.token)

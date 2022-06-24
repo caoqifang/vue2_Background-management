@@ -1,5 +1,32 @@
 <template>
   <div class="studentList">
+    <!-- 查询、重置功能 -->
+    <el-form
+      :inline="true"
+      :model="formInline"
+      ref="formInline"
+      class="demo-form-inline"
+      size="mini"
+      :rules="rules"
+    >
+      <el-form-item label="姓名" prop="name">
+        <el-input
+          v-model="formInline.name"
+          placeholder="请输入姓名查询"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          @click="find('formInline')"
+          :disabled="inquire"
+          >查询</el-button
+        >
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="reset">重置</el-button>
+      </el-form-item>
+    </el-form>
     <!-- <el-table
       v-loading="loading"
       element-loading-text="玩命加载中~"
@@ -43,11 +70,12 @@
       <el-table-column prop="phone" label="联系方式" width="150" align="center">
       </el-table-column>
       <el-table-column label="操作" width="80" align="center">
-        <template>
+        <template slot-scope="scope">
           <el-button
             type="danger"
             size="mini"
             icon="el-icon-delete"
+            @click="del(scope.row)"
           ></el-button>
         </template>
       </el-table-column>
@@ -66,7 +94,11 @@
 </template>
 
 <script>
-import { students } from "@/api/api";
+import { students, del } from "@/api/api";
+// 正则验证模块
+import { queryStudent } from "@/utils/vaildate";
+// 处理性别 状态的方法
+import { zhuangtai } from "@/utils/processingStatus";
 export default {
   data() {
     return {
@@ -78,6 +110,14 @@ export default {
       pageSize: 10,
       //   总条数
       total: 0,
+      //   查询
+      inquire: false,
+      formInline: {
+        name: "",
+      },
+      rules: {
+        name: [{ validator: queryStudent, trigger: "blur" }],
+      },
     };
   },
   created() {
@@ -93,17 +133,7 @@ export default {
         if (res.data.status === 200) {
           this.tableData = res.data.data;
           this.total = res.data.total;
-          //   处理性别 状态 正常显示  不修改源数据 新增一个字段  在显示的时候 使用这个新增的字段
-          this.tableData.forEach((item) => {
-            item.sex === 1 ? (item.sex_text = "男") : (item.sex_text = "女");
-            // 连续三元判断的写法
-            item.state === "1"
-              ? (item.state_text = "已入学")
-              : item.state === "2"
-              ? (item.state_text = "未入学")
-              : (item.state_text = "休学中");
-            item.number = "2202" + item.number;
-          });
+          zhuangtai(this.tableData);
         }
       });
     },
@@ -119,17 +149,64 @@ export default {
       //   console.log(`当前页: ${val}`);
       this.currentPage = val;
     },
+    // 删除操作
+    del(row) {
+      // console.log(row);
+      del(row.id).then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          // this.tableData.forEach((item) => {
+          //     if(item.id === row.id){
+
+          //     }
+          // })
+          this.$message({ message: "删除成功", type: "success" });
+          this.getData();
+        }
+      });
+    },
+    // 查询
+    find(formInline) {
+      console.log(this.formInline);
+      //   通过验证 发请求 否则
+      this.$refs[formInline].validate((valid) => {
+        if (valid) {
+          students(this.formInline).then((res) => {
+            this.tableData = res.data.data;
+            this.total = 1
+            // 处理性别 状态
+            zhuangtai(this.tableData);
+          });
+        }
+      });
+    },
+    // 重置
+    reset() {
+      this.tableData = [];
+      this.getData();
+    },
   },
-  computed:{
-    compData(){
-        return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
-    }
-  }
+  computed: {
+    compData() {
+      return this.tableData.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      );
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 .studentList {
+  .demo-form-inline {
+    text-align: left;
+    .el-button--primary {
+      color: #fff;
+      background-color: #0b172e;
+      border-color: #0b172e;
+    }
+  }
   .el-pagination {
     text-align: left;
     margin-top: 20px;
