@@ -173,7 +173,7 @@ export default {
         if (valid) {
           students(this.formInline).then((res) => {
             this.tableData = res.data.data;
-            this.total = 1
+            this.total = 1;
             // 处理性别 状态
             zhuangtai(this.tableData);
           });
@@ -183,6 +183,7 @@ export default {
     // 重置
     reset() {
       this.tableData = [];
+      this.formInline.name = "";
       this.getData();
     },
   },
