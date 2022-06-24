@@ -10,3 +10,12 @@ export function login(data){
         data
     })
 }
+
+// 学生列表查询接口
+export function students(params){
+    return http({
+        method:'get',
+        url:'/students',
+        params
+    })
+}

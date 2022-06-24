@@ -15,6 +15,7 @@ service.interceptors.request.use((cfg) => {
     // 在请求之前做一些事情
     // 获取并设置token
     cfg.headers['token'] = getToken('token')//将token携带到请求头上
+    
     return cfg
 },(err) => {
     return Promise.reject(err)

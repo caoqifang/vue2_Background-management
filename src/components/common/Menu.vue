@@ -53,6 +53,7 @@ export default {
     overflow: hidden;
     .el-menu {
       height: 100%;
+      overflow: hidden;
       .fa {
         margin-right: 10px;
       }
