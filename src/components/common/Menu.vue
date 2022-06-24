@@ -6,7 +6,7 @@
         default-active="2"
         class="el-menu-vertical-demo"
         background-color="#0b172e"
-        text-color="#dcdcdc"
+        text-color="#b6b8bc"
         active-text-color="#fff"
       >
         <div v-for="(item, index) in menus" :key="index">

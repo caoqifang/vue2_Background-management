@@ -59,7 +59,7 @@
       :title="state ? '添加学生信息' : '修改学生信息'"
       :visible.sync="dialogFormVisible"
       :closeOnPressEscape="false"
-    :closeOnClickModal="false"
+      :closeOnClickModal="false"
     >
       <el-form :model="form" :rules="rules" ref="form" status-icon>
         <el-form-item
@@ -67,7 +67,6 @@
           :label-width="formLabelWidth"
           prop="name"
           ref="form"
-          
         >
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
@@ -143,7 +142,7 @@
 </template>
 
 <script>
-import { addInfo, getInfo, updataInfo } from "@/api/api";
+import {  getInfo, info, infoDel } from "@/api/api";
 import { zhuangtai } from "@/utils/processingStatus";
 export default {
   data() {
@@ -184,13 +183,23 @@ export default {
         this.form = { ...row };
       });
     },
-    del() {},
+    del(row) {
+        // console.log(row.id);
+      this.$alert("你确定要删除吗？", "提示", {
+        confirmButtonText: "确定",
+        callback: () => {
+            // console.log(row.id);
+          infoDel(row.id).then((res) => {
+            if (res.data.status === 200) {
+              this.getData();
+              console.log(this.tableData);
+              this.$message({ message: "删除成功", type: "success" });
+            }
+          });
+        },
+      });
+    },
     closeInfo(form) {
-      //   console.log(this.$refs[form]);
-      //   this.$refs[form].resetFields();
-      //   this.$nextTick(() => {
-      //
-      //   });
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
     },
@@ -217,7 +226,7 @@ export default {
         if (valid) {
           // 判断状态 如果是新增 就发新增的请求
           if (this.state) {
-            addInfo(this.form).then((res) => {
+            info('post',this.form).then((res) => {
               if (res.data.status === 200) {
                 this.getData();
                 this.dialogFormVisible = false;
@@ -226,7 +235,7 @@ export default {
               }
             });
           } else {
-            updataInfo(this.form).then((res) => {
+            info('put',this.form).then((res) => {
               if (res.data.status === 200) {
                 this.dialogFormVisible = false;
                 this.$refs["form"].resetFields();
@@ -243,6 +252,7 @@ export default {
     getData() {
       getInfo().then((res) => {
         if (res.data.status === 200) {
+            this.tableData=[];
           this.tableData = res.data.data;
           this.total = res.data.total;
           zhuangtai(this.tableData);
@@ -275,7 +285,7 @@ export default {
     font-size: 14px;
     text-align: left;
   }
-  .el-dialog__headerbtn{
+  .el-dialog__headerbtn {
     display: none;
   }
 }
