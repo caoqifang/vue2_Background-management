@@ -39,7 +39,7 @@ export function del(id) {
 //         data
 //     })
 // }
-
+////////////////////上下两个已经模块化///////////////////
 // // 信息列表修改接口
 // export function updataInfo(data) {
 //     data = qs.stringify(data)
@@ -67,7 +67,6 @@ export function getInfo() {
 
 // 信息列表删除接口
 export function infoDel(id) {
-    // let obj = {}
     return http({
         method: 'delete',
         url: `/info/${id}`,

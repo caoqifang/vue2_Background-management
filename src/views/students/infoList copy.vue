@@ -1,3 +1,4 @@
+<!-- 增删改查 方法模块化之前-->
 <template>
   <div class="infoList">
     <el-form
@@ -142,54 +143,121 @@
 </template>
 
 <script>
-import { getData, changeInfo, delData, changeFrom } from "@/utils/table";
+import {  getInfo, info, infoDel } from "@/api/api";
+import { zhuangtai } from "@/utils/processingStatus";
+import { getData } from "@/utils/table";
 export default {
   data() {
     return {
       tableData: [],
       dialogFormVisible: false,
-      form: {}, //vueX中已经存储数据
+      form: {
+        name: "",
+        sex: "1",
+        age: "",
+        father: "",
+        mather: "",
+        address: "",
+        time: "",
+        phone: "",
+      },
       formLabelWidth: "80px",
-      rules: {}, //vueX中已经存储数据
+      rules: {
+        name: [{ required: true, message: "请输入姓名" }],
+        sex: [{ required: true }],
+        age: [{ required: true, message: "请输入年龄" }],
+        address: [{ required: true, message: "请输入地址" }],
+        time: [{ required: true, message: "请选择入学时间" }],
+        phone: [{ required: true, message: "请输入练习方式" }],
+      },
       state: true,
       total: 0,
     };
   },
   created() {
-    // 使用模块化之后的方法
-    getData(this, "/info");
-    this.form = this.$store.getters.getForm; // vueX中初始化表单的数数据
-    this.rules = this.$store.getters.getRules; //vueX中存储表单校验规则
+    this.getData();
   },
   methods: {
     edit(row) {
-      changeFrom(this, false, true);
+      this.state = false;
+      this.dialogFormVisible = true;
       this.$nextTick(() => {
         this.form = { ...row };
       });
     },
     del(row) {
-      delData(this, "/info", row.id, getData);
+        // console.log(row.id);
+      this.$alert("你确定要删除吗？", "提示", {
+        confirmButtonText: "确定",
+        callback: () => {
+            // console.log(row.id);
+          infoDel(row.id).then((res) => {
+            if (res.data.status === 200) {
+              this.getData();
+              console.log(this.tableData);
+              this.$message({ message: "删除成功", type: "success" });
+            }
+          });
+        },
+      });
     },
     closeInfo(form) {
       this.$refs[form].resetFields();
-      changeFrom(this, '', false);
+      this.dialogFormVisible = false;
     },
     addStatus() {
-      changeFrom(this, true, true);
+      this.state = true;
+      //   this.$refs['form'].resetFields();
+      this.dialogFormVisible = true;
       this.$nextTick(() => {
-        this.form = this.$store.getters.getForm;
+        this.form = {
+          name: "",
+          sex: "1",
+          age: "",
+          father: "",
+          mather: "",
+          address: "",
+          time: "",
+          phone: "",
+        };
       });
     },
-    // 新增和修改的两个功能
     sure(form) {
+      //   console.log(form, this.form);
       this.$refs[form].validate((valid) => {
         if (valid) {
           // 判断状态 如果是新增 就发新增的请求
-          let method = "";
-          // 新增为true 修改为false
-          this.state ? (method = "post") : (method = "put");
-          changeInfo(this, method, "/info", this.form, getData);
+          if (this.state) {
+            info('post',this.form).then((res) => {
+              if (res.data.status === 200) {
+                this.getData();
+                this.dialogFormVisible = false;
+                this.$refs[form].resetFields();
+                this.$message({ type: "success", message: "新增成功" });
+              }
+            });
+          } else {
+            info('put',this.form).then((res) => {
+              if (res.data.status === 200) {
+                this.dialogFormVisible = false;
+                this.$refs["form"].resetFields();
+                this.$nextTick(() => {
+                  this.getData();
+                });
+                this.$message({ type: "success", message: "修改成功" });
+              }
+            });
+          }
+        }
+      });
+    },
+    getData() {
+      getInfo().then((res) => {
+        if (res.data.status === 200) {
+            this.tableData=[];
+          this.tableData = res.data.data;
+          this.total = res.data.total;
+          zhuangtai(this.tableData);
         }
       });
     },
