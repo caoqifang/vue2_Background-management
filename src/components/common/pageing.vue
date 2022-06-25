@@ -12,6 +12,8 @@
       :url="url"
     >
     </el-pagination>
+    <!-- url请求地址定义在父级  通过传参方式传递进来 -->
+    <!-- total 同理 通过父级传递 根据实际需求传递 -->
   </div>
 </template>
 
