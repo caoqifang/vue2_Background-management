@@ -11,10 +11,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import axios from 'axios'
 // 引入二次封装的axios
 import axios from '@/http/req'
+// 引入echarts模块
+import echarts from 'echarts'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 // axios挂载到原型上
 Vue.prototype.$http = axios
+Vue.prototype.$echarts = echarts
+
 new Vue({
   router,
   store,
