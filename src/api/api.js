@@ -51,9 +51,9 @@ export function del(id) {
 //     })
 // }
 // 信息列表的新增和修改接口
-export function info(type,data){
+export function info(type, data) {
     data = qs.stringify(data)
-    let obj = {method:type,url:'/info',data}
+    let obj = { method: type, url: '/info', data }
     return http(obj)
 }
 // 信息列表查询接口
@@ -71,12 +71,20 @@ export function infoDel(id) {
         method: 'delete',
         url: `/info/${id}`,
     })
-}   
+}
 
 // 数据概览的接口
-export function dataView(){
+export function dataView() {
     return http({
-        method:'get',
-        url:'/dataview'
+        method: 'get',
+        url: '/dataview'
+    })
+}
+
+// 旅游地图的接口
+export function travel() {
+    return http({
+        method: 'get',
+        url: '/travel'
     })
 }
