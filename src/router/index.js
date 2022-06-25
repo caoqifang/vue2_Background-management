@@ -12,6 +12,7 @@ const routes = [
     path: '/',
     // 路由重定向
     redirect: '/login',
+    name: '首页',
     hidden: true,
     component: () => import('@/components/Login'),
   },
@@ -40,17 +41,25 @@ const router = new VueRouter({
   routes
 })
 // 全局前置守卫
-router.beforeEach((to, form, next) => { 
+router.beforeEach((to, form, next) => {
   // console.log(to);
-  if(to.meta.isLogin){
-    if(getToken('token')){
-      next();
-    }else{
-      next('/');
-      // 未登录 请登录
-    }
-  }else{
-    next()
-  }
+  if (!getToken('token')) {
+    if (to.path !== '/login') {
+      // this.$message.error('未登录 请登录');
+      // this.$message({ message: "删除成功", type: "success" });
+      next('/login')
+    } else next()
+  } next()
+  // if(to.meta.isLogin){
+  //   if(getToken('token')){
+  //     next();
+  //   }else{
+  //     next('/');
+  //     // 未登录 请登录
+  //     this.$message.error('未登录 请登录');
+  //   }
+  // }else{
+  //   next()
+  // }
 })
 export default router
