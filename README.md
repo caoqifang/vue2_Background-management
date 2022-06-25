@@ -33,5 +33,7 @@ npm run build
 ### 接口说明文档
 [https://www.showdoc.com.cn/jinducasey/8321036098744323]
 密码：jinduVIP
+### 分数地图
+[http://192.144.199.210:8080/editor/index.html?chart_id=7Ph0yZtNoJ1JhGDl]
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
