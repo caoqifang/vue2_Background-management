@@ -42,8 +42,6 @@
     <el-table
       v-loading="loading"
       element-loading-text="玩命加载中~"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
       :data="compData"
       border
       style="width: 100%"
@@ -122,9 +120,6 @@ export default {
   },
   created() {
     this.getData();
-    if (this.tableData) {
-      this.loading = false;
-    }
   },
   methods: {
     getData(params) {
@@ -134,6 +129,7 @@ export default {
           this.tableData = res.data.data;
           this.total = res.data.total;
           zhuangtai(this.tableData);
+          this.loading = false;
         }
       });
     },

@@ -1,22 +1,6 @@
+<!-- 组件化分页方法 -->
 <template>
   <div class="worklist">
-    <el-table
-      :data="tableData"
-      border
-      style="width: 100%"
-      v-loading="loading"
-      element-loading-text="玩命加载中~"
-    >
-      <el-table-column prop="id" label="用户ID" align="center">
-      </el-table-column>
-      <el-table-column prop="userId" label="所属班级" align="center">
-      </el-table-column>
-      <el-table-column prop="title" label="作业名称" align="center">
-      </el-table-column>
-      <el-table-column prop="completed_text" label="完成情况" align="center">
-      </el-table-column>
-    </el-table>
-    <!-- 分页方法组件化之前 组件化后的在作业管理 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -25,6 +9,7 @@
       :page-size="size"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
+      :url="url"
     >
     </el-pagination>
   </div>
@@ -33,17 +18,22 @@
 <script>
 import { getTableDate } from "@/utils/table";
 export default {
+  props: {
+    total: Number,
+    url: String,
+  },
   data() {
     return {
-      tableData: [],
-      total: 0,
+      // 当前页数
       page: 1,
+      // 每页显示条数
       size: 10,
-      loading: true,
+      
     };
   },
     created() {
-      getTableDate(this, "/works", { page: this.page, size: this.size }, [
+        // this.$parent 代表父组件实例对象
+      getTableDate(this.$parent, this.url, { page: this.page, size: this.size }, [
         "completed",
       ]);
     },
@@ -55,14 +45,14 @@ export default {
         // 当前页数
         this.page = 1;
         //   console.log(`每页 ${val} 条`);
-        getTableDate(this, "/works", { page: this.page, size: val }, [
+        getTableDate(this.$parent, this.url, { page: this.page, size: val }, [
           "completed",
         ]);
       },
       handleCurrentChange(val) {
         //   console.log(`当前页: ${val}`);
         this.page = val;
-        getTableDate(this, "/works", { page: val, size: this.size }, [
+        getTableDate(this.$parent, this.url, { page: val, size: this.size }, [
           "completed",
         ]);
       },
