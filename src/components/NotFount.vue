@@ -14,6 +14,7 @@ export default {};
   height: 100%;
   overflow: hidden;
   background: url(../assets/images/404.png) center no-repeat;
+  background-size: 100%;
   >div:nth-child(1){
     margin: 550px auto;
     font-size: 20px;

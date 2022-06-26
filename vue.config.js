@@ -6,7 +6,7 @@ module.exports = defineConfig({
     // 浏览器自动打开
     open: true,
     // 打开地址为本地
-    // host: 'localhost',
+    host: 'localhost',
     // 配置代理服务器 
     proxy: {
       // 标识

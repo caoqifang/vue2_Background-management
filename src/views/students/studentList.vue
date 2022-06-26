@@ -9,7 +9,7 @@
       size="mini"
       :rules="rules"
     >
-      <el-form-item label="姓名" prop="name">
+      <el-form-item label="姓名" prop="name" ref="form">
         <el-input
           v-model="formInline.name"
           placeholder="请输入姓名查询"

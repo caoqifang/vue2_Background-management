@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+// 导入正则校验规则
+import { queryStudent, getNumber, checkName, checkPhone } from '@/utils/vaildate'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -18,12 +19,12 @@ export default new Vuex.Store({
     },
     // 信息列表表单校验规则
     rules: {
-      name: [{ required: true, message: "请输入姓名" }],
+      name: [{ validator: checkName, trigger: "blur", required: true, }],
       sex: [{ required: true }],
-      age: [{ required: true, message: "请输入年龄" }],
+      age: [{ validator: getNumber, required: true, trigger: "blur", }],
       address: [{ required: true, message: "请输入地址" }],
       time: [{ required: true, message: "请选择入学时间" }],
-      phone: [{ required: true, message: "请输入联系方式" }],
+      phone: [{ validator: checkPhone, required: true, trigger: "blur", }],
     },
   },
   getters: {

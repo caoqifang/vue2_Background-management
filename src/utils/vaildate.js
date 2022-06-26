@@ -35,11 +35,46 @@ export function queryStudent(rule, value, callback) {
         // callback(new Error("请输入姓名查询！"));
     } else if (!pass.test(value)) {
         callback(
-            new Error("只可以输入汉字查询")
+            new Error("只可以输入汉字")
         );
     } else {
         callback(
-            
+
         );
+    }
+}
+
+// 纯数字校验规则
+export function getNumber(rule, value, callback) {
+    let pass = /^\d+$/;
+    if (value === '') {
+        callback(new Error(' 请输入年龄'))
+    } else if (!pass.test(value)) {
+        callback(new Error('只可以输入纯数字'))
+    } else {
+        callback();
+    }
+}
+// 姓名校验
+export function checkName(rule, value, callback) {
+    let pass = /^(?:[\u4e00-\u9fa5·]{2,16})$/;
+    if (value === '') {
+        callback(new Error(' 请输入姓名'))
+    } else if (!pass.test(value)) {
+        callback(new Error('请输入正确的姓名'))
+    } else {
+        callback();
+    }
+}
+
+// 手机号校验
+export function checkPhone(rule, value, callback) {
+    let pass = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8}$/;
+    if (value === '') {
+        callback(new Error(' 请输手机号'))
+    } else if (!pass.test(value)) {
+        callback(new Error('请输入正确的手机号'))
+    } else {
+        callback();
     }
 }
