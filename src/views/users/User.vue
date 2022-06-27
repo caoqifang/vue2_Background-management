@@ -2,7 +2,7 @@
   <div>
     <el-tree :data="menus" show-checkbox node-key="name" :props="defaultProps" ref="tree">
     </el-tree>
-    <el-button type="primary" @click="getCheckNodes">通过node节点获取</el-button>
+    <el-button type="primary" @click="getCheckNodes">确定</el-button>
   </div>
 </template>
 
